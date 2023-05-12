@@ -1,0 +1,107 @@
+  8 4214Take as input str, a string. The string is a mathematical expression e.g. “[a + {b + (c + d) + e} + f]”. Write a recursive function which tests if the brackets in expression are balanced or not and returns a Boolean value. Print the value returned.
+
+Input Format
+Enter the string
+
+Constraints
+None
+
+Output Format
+Display the boolean result
+
+Sample Input
+[a+{b+(c+d)+e}+f]
+Sample Output
+true
+{...} Code Editor
+
+C++
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+https://hack.codingblocks.com/app/contests/4214/729/problem
+
+
+
+
+
+#include<bits/stdc++.h>
+#define speed ios_base::sync_with_stdio(false)
+#define boost cin.tie(NULL)
+#define booster cout.tie(NULL)
+#define endl "\n"
+typedef long long int lld;
+
+#define F(a,n) for(int i=0;i<n;i++){cin>>a[i];}
+#define F1(a,n) for(int i=1;i<=n;i++){cin>>a[i];}
+
+using namespace std;
+
+stack<char> st;
+unordered_map<char,char> open;
+unordered_map<char,char> close;
+
+bool recurse(string s,int i){
+	if(i==s.length())
+		return st.empty();
+	
+	if(open[s[i]] > 1)
+		st.push(s[i]);
+	if(close[s[i]] > 1){
+		if( s[i] == open[st.top()] )
+			st.pop();
+		else
+			return false;
+	}
+	return recurse(s,i+1);
+}
+
+int main() {
+	
+	open['(']=')'; open['{']= '}'; open['[']=']';
+	close[')']='('; close['}']= '{'; close[']']='[';
+	
+	string s;
+	cin>>s;
+
+	if(recurse(s,0))
+		cout<<"true";
+	else
+		cout<<"false";
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+ Provide Custom Input
+Compile and Test Submit Code
+[a+{b+(c+d)+e}+f]
+Test Cases
+Result
+Test Case 0 
+Test Case 1 
+Test Case 2 
+Test Case 3 
+Test Case 4 
+Compile Message
+Success

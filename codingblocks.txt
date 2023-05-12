@@ -1,0 +1,52 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector<string> getCodes(string str) {
+    if (str.empty()) {
+        vector<string> result;
+        result.push_back("");
+        return result;
+    }
+
+    char first = str[0];
+    vector<string> restCodes = getCodes(str.substr(1));
+    vector<string> result;
+
+    char ch = 'a' + first - '1';
+    for (string code : restCodes) {
+        result.push_back(ch + code);
+    }
+    if (str.length() >= 2) {
+        int twoDigits = stoi(str.substr(0, 2));
+        if (twoDigits <= 26) {
+            ch = 'a' + twoDigits - 1;
+            vector<string> remainingCodes = getCodes(str.substr(2));
+            for (string code : remainingCodes) {
+                result.push_back(ch + code);
+            }
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    string str ;
+	cin>>str;
+    vector<string> codes = getCodes(str);
+	sort(codes.begin(),codes.end());
+	cout<<"[";
+     for (int i = 0; i < codes.size(); i++) {
+        cout << codes[i];
+        if (i < codes.size() - 1) {
+            cout << ", ";
+        }
+    }
+    cout <<"]"<< endl;
+    return 0;
+}
+
+https://hack.codingblocks.com/app/contests/4214/145/problem

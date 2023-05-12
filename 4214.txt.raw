@@ -1,0 +1,656 @@
+#include<bits/stdc++.h>
+#define speed ios_base::sync_with_stdio(false)
+#define boost cin.tie(NULL)
+#define booster cout.tie(NULL)
+#define endl "\n"
+typedef long long int lld;
+
+#define F(a,n) for(int i=0;i<n;i++){cin>>a[i];}
+#define F1(a,n) for(int i=1;i<=n;i++){cin>>a[i];}
+
+using namespace std;
+
+lld count;
+vector<lld> result;
+stack<vector<lld>> st;
+
+void printv(vector<lld> ar){
+	for(lld i=0;i<ar.size();i++)
+		cout<<ar[i]<<" ";
+	cout<<" ";
+	return;
+}
+
+void recurse(vector<lld> result,vector<lld> ar,lld target,lld sum,lld i){
+
+	if(i==ar.size()){
+
+		if(sum==target){
+			::count++;
+			st.push(result);
+		}
+
+		return;
+	}
+	
+	recurse(result,ar,target,sum,i+1);
+
+	result.push_back(ar[i]);
+	sum+= ar[i];
+
+	recurse(result,ar,target,sum,i+1);
+
+}
+
+int main() {
+	::count=0;
+	lld N,target;
+	cin>>N;
+	vector<lld> ar(N);
+	vector<lld> result;
+
+	for(lld i=0;i<N;i++)
+		cin>>ar[i];
+	cin>>target;
+
+	recurse(result,ar,target,0,0);
+	while(! ::st.empty()){
+		printv(st.top());
+		st.pop();
+	}
+	cout<<endl<<::count;
+
+	return 0;
+}
+[12-05-2023 23:38] @ Sanskar Saxena #8168 conding Block SS 10r: 1
+[12-05-2023 23:39] @ Sanskar Saxena #8168 conding Block SS 10r: #include <bits/stdc++.h>
+using namespace std;
+
+vector<string>ans;
+
+void gs(char *in,char *out,int i,int j){
+	//base case
+	if(in[i]=='\0'){
+		out[j]='\0';
+		ans.push_back(out); // store
+		return;
+	}
+
+	//recursive case
+	int fd = in[i]-'0';
+	//map the numbers corresponding to the Letters
+	char ch = 'a' + fd -1;
+	out[j]=ch;
+	gs(in,out,i+1,j+1);
+
+	// take the two digit numbers
+	if(in[i+1]!='\0'){
+		int sd = in[i+1]-'0';
+		int no = 10*fd + sd;
+		if(no <= 26){ // check this
+			ch = 'a'+no-1;
+			out[j]=ch;
+			gs(in,out,i+2,j+1);
+		}
+	}
+}
+
+int main(){
+	char in[100];
+	char out[100];
+
+	cin>>in;
+	gs(in,out,0,0);
+	cout<<"[";
+	for(int i=0;i<ans.size();i++){ // print 
+		cout<<ans[i];
+		if(i != ans.size()-1)cout<<", ";
+	}
+	cout<<"]";
+
+return 0;
+}
+[12-05-2023 23:39] @ Sanskar Saxena #8168 conding Block SS 10r: 2
+[12-05-2023 23:40] @ Sanskar Saxena #8168 conding Block SS 10r: #include<iostream>
+#include<vector>
+#include<set>
+using namespace std;
+
+void generateSub(int i,vector<int> v,int n, set<int> temp,int sum, int &cntways){
+    if(i == n){
+        int sumsplit = 0;
+        for(auto x:temp){
+            sumsplit += v[x];
+        }
+        if(sumsplit == sum){
+            for(auto x:temp){
+                cout<<v[x]<<" ";
+            }
+            cout<<"and ";
+            for(int x=0;x<n;x++){
+                if(temp.find(x) == temp.end()){
+                    cout<<v[x]<<" ";
+                }
+            }
+            cout<<endl;
+            cntways++;
+        }
+        return;
+    }
+
+    temp.insert(i);
+    generateSub(i+1,v,n,temp,sum,cntways);
+    temp.erase(i);
+    generateSub(i+1,v,n,temp,sum,cntways);
+}
+
+int main() {
+    int n;
+    cin>>n;
+    vector<int> v(n);
+    int sum = 0;
+    for(int i=0;i<n;i++){
+        cin>>v[i];
+        sum += v[i];
+    }
+    set<int> temp;
+    if(sum%2 != 0){
+        cout<<"0"<<endl;
+        return 0;
+    }
+    sum = sum/2;
+    int cntways = 0;
+    generateSub(0,v,n,temp,sum,cntways);
+    cout<<cntways<<endl;
+}
+[12-05-2023 23:40] @ Sanskar Saxena #8168 conding Block SS 10r: 3
+[12-05-2023 23:40] @ Sanskar Saxena #8168 conding Block SS 10r: #include<bits/stdc++.h>
+#define speed ios_base::sync_with_stdio(false)
+#define boost cin.tie(NULL)
+#define booster cout.tie(NULL)
+#define endl "\n"
+typedef long long int lld;
+
+#define F(a,n) for(int i=0;i<n;i++){cin>>a[i];}
+#define F1(a,n) for(int i=1;i<=n;i++){cin>>a[i];}
+
+using namespace std;
+
+vector<string> result;
+int count=0;
+
+void recurse(string ans,string s,int i){
+
+	if(i==s.length()){
+		::count++;
+		result.push_back(ans);
+		
+		return ;
+	}
+
+	recurse(ans,s,i+1);
+	recurse(ans + s[i], s, i+1);
+	recurse(ans+ to_string((int)(s[i])), s, i+1);
+
+}
+
+int main(){
+
+	string s;
+	cin>>s;
+
+	recurse("",s,0);
+	for(int i=0;i<result.size();i++)
+		cout<<result[i]<<" ";
+	cout<<endl<<::count;
+
+	return 0;
+}
+[12-05-2023 23:40] @ Sanskar Saxena #8168 conding Block SS 10r: 4
+[12-05-2023 23:41] @ Sanskar Saxena #8168 conding Block SS 10r: #include<bits/stdc++.h>
+using namespace std;
+
+int twins(string str, int idx, int n){
+if(idx == n-2){
+return 0;
+}
+int cnt = 0;
+if(str[idx] == str[idx+2]){
+cnt++;
+}
+return cnt + twins(str, idx+1, n);
+}
+
+int main(){
+string str;
+cin>>str;
+int n = str.length();
+cout<<twins(str, 0, n)<<endl;
+return 0;
+}
+[12-05-2023 23:41] @ Sanskar Saxena #8168 conding Block SS 10r: 5
+[12-05-2023 23:41] @ Sanskar Saxena #8168 conding Block SS 10r: #include<bits/stdc++.h>
+#define speed ios_base::sync_with_stdio(false)
+#define boost cin.tie(NULL)
+#define booster cout.tie(NULL)
+#define endl "\n"
+typedef long long int lld;
+
+#define F(a,n) for(int i=0;i<n;i++){cin>>a[i];}
+#define F1(a,n) for(int i=1;i<=n;i++){cin>>a[i];}
+
+using namespace std;
+
+bool recurse(string s,int i){
+
+	if(i>=s.length())
+		return true;
+
+	if(s[i]!='a' && s[i]!='b')
+		return false;
+	if(s[i]=='b'){
+		if((i< s.length()-1) && s[i+1]=='b')
+			return recurse(s,i+2);
+		else 
+			return false;
+	}
+
+	return recurse(s,i+1);
+}
+
+int main(){
+	string s;
+	cin>>s;
+
+	if(recurse(s,0))
+		cout<<"true";
+	else
+		cout<<"false";
+
+	return 0;
+}
+[12-05-2023 23:41] @ Sanskar Saxena #8168 conding Block SS 10r: 6
+[12-05-2023 23:42] @ Sanskar Saxena #8168 conding Block SS 10r: #include<bits/stdc++.h>
+#define speed ios_base::sync_with_stdio(false)
+#define boost cin.tie(NULL)
+#define booster cout.tie(NULL)
+#define endl "\n"
+typedef long long int lld;
+
+#define F(a,n) for(int i=0;i<n;i++){cin>>a[i];}
+#define F1(a,n) for(int i=1;i<=n;i++){cin>>a[i];}
+
+using namespace std;
+
+bool recurse(string s,int i){
+
+	if(i>=s.length())
+		return true;
+
+	if(s[i]!='a' && s[i]!='b')
+		return false;
+	if(s[i]=='b'){
+		if((i< s.length()-1) && s[i+1]=='b')
+			return recurse(s,i+2);
+		else 
+			return false;
+	}
+
+	return recurse(s,i+1);
+}
+
+int main(){
+	string s;
+	cin>>s;
+
+	if(recurse(s,0))
+		cout<<"true";
+	else
+		cout<<"false";
+
+	return 0;
+}
+[12-05-2023 23:42] @ Sanskar Saxena #8168 conding Block SS 10r: 7
+[12-05-2023 23:42] @ Sanskar Saxena #8168 conding Block SS 10r: #include <iostream>
+using namespace std;
+int addDigits(int n) {
+    if (n < 10) {
+        return n;
+    }
+    int sum=0;
+    for(;n>0;n/=10){
+        sum += n % 10;
+    }
+    return addDigits(sum);
+}
+int main() {
+    int n;
+    cin >> n;
+    cout << addDigits(n) << endl;
+    return 0;
+}
+[12-05-2023 23:42] @ Sanskar Saxena #8168 conding Block SS 10r: 8
+[12-05-2023 23:46] @ Sanskar Saxena #8168 conding Block SS 10r: #include <iostream>
+using namespace std;
+int towerOfHanoi(int n, char beg, char end, char aux) {
+    if(n == 1) {
+        cout << "Move 1th disc from T" << beg - 'A' + 1 << " to T" << end - 'A' + 1 << endl;
+        return 1;
+    }
+    int steps = 0;
+    steps += towerOfHanoi(n - 1, beg, aux, end);
+    cout << "Move " << n << "th disc from T" << beg - 'A' + 1 << " to T" << end - 'A' + 1 << endl;
+    steps++;
+    steps += towerOfHanoi(n - 1, aux, end, beg);
+    return steps;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int steps = towerOfHanoi(n, 'A', 'B', 'C');
+    cout << steps << endl;
+    return 0;
+}
+[12-05-2023 23:46] @ Sanskar Saxena #8168 conding Block SS 10r: 9
+[12-05-2023 23:46] @ Sanskar Saxena #8168 conding Block SS 10r: #include <iostream>
+using namespace std;
+int addDigits(int n) {
+    if (n < 10) {
+        return n;
+    }
+    int sum=0;
+    for(;n>0;n/=10){
+        sum += n % 10;
+    }
+    return addDigits(sum);
+}
+int main() {
+    int n;
+    cin >> n;
+    cout << addDigits(n) << endl;
+    return 0;
+}
+[12-05-2023 23:46] @ Sanskar Saxena #8168 conding Block SS 10r: 10
+[12-05-2023 23:50] @ Sanskar Saxena #8168 conding Block SS 10r: #include <bits/stdc++.h>
+using namespace std;
+
+bool ratInAMaze(char maze[1001][1001],bool path[1001][1001], int n, int m,int i, int j){
+    if(i==n-1 && j==m-1){
+        path[i][j]=1;
+        return true;
+    }
+
+   if(maze[i][j]=='X')
+     return false;
+
+   if(i>=n || j>=m){
+       return false;
+   }
+
+   path[i][j]=1;
+
+   bool rightsucess = ratInAMaze(maze,path,n,m,i,j+1);
+   if(!rightsucess){
+       bool downsucess = ratInAMaze(maze,path,n,m,i+1,j);
+       if(!downsucess){
+            path[i][j]=0;
+            return false;
+       }
+   }
+
+   return true;
+
+}
+int main() {
+   int n,m;
+   cin>>n>>m;
+   char maze[1001][1001];
+   for(int i=0;i<n;i++){
+       for(int j=0;j<m;j++){
+           cin>>maze[i][j];
+       }
+   }
+   bool path[1001][1001]={0};
+   bool sucess = ratInAMaze(maze,path,n,m,0,0);
+
+   if(sucess){
+       for(int i=0;i<n;i++){
+           for(int j=0;j<m;j++){
+                cout<<path[i][j]<<" ";
+           }
+           cout<<endl;
+       }
+
+   }
+   else
+     cout<<-1;
+   return 0;
+}
+[12-05-2023 23:50] @ Sanskar Saxena #8168 conding Block SS 10r: 11
+[12-05-2023 23:50] @ Sanskar Saxena #8168 conding Block SS 10r: #include <bits/stdc++.h>
+using namespace std;
+#define ll long long int
+int board[10][10]={0};
+bool isVisited[10][10] ={false};
+int n;
+int counter = INT_MAX;
+// (r-2,c-1), (r-2,c+1), (r-1,c-2), (r-1,c+2), (r+1,c-2), (r+1,c+2), (r+2,c-1), or (r+2,c+1)
+// backtracking is used.
+bool isValid(int i, int j){
+
+    return (i>=0) && (i<n) && (j<n) && (!isVisited[i][j]) && (j>=0) && (board[i][j]==1);
+}
+
+void solveKnight(int board[][10], int i, int j){
+    isVisited[i][j]=true;
+    if(!(isValid(i-2,j-1) || isValid(i-2,j+1) || isValid(i-1,j-2) || isValid(i-1,j+2) || isValid(i+1,j-2) || isValid(i+1,j+2) || isValid(i+2,j-1) || isValid(i+2,j+1))){
+        int temp=0;
+        for(int k=0;k<n;k++){
+            for(int l=0;l<n;l++){
+                if(board[k][l]==1 && isVisited[k][l]==false)
+                    temp++;
+            }
+        }
+        if(temp<counter)
+            counter = temp;
+        return;
+    }
+
+    if(isValid(i-2,j-1)){
+        solveKnight(board,i-2,j-1);
+        isVisited[i-2][j-1]= false;
+    }
+
+     if(isValid(i-2,j+1)){
+        solveKnight(board,i-2,j+1);
+        isVisited[i-2][j+1]= false;
+
+    }
+    if (isValid(i-1,j-2)){
+        solveKnight(board,i-1,j-2);
+       isVisited[i-1][j-2]= false;
+    }
+    if(isValid(i-1,j+2)){
+        solveKnight(board,i-1,j+2);
+          isVisited[i-1][j+2]= false;
+    }
+    if(isValid(i+1,j-2)){
+        solveKnight(board,i+1,j-2);
+            isVisited[i+1][j-2]= false;
+    }
+    if(isValid(i+1,j+2)){
+        solveKnight(board,i+1,j+2);
+       isVisited[i+1][j+2]= false;
+    }
+     if(isValid(i+2,j-1)){
+        solveKnight(board,i+2,j-1);
+               isVisited[i+2][j-1]= false;
+    }
+     if(isValid(i+2,j+1)){
+        solveKnight(board,i+2,j+1);
+        isVisited[i+2][j+1]= false;
+    }
+
+    return;
+
+}
+int main()
+{
+    cin>>n;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            cin>>board[i][j];
+        }
+    }
+    solveKnight(board,0,0);
+    cout<<counter<<endl;
+    return 0;
+}
+[12-05-2023 23:50] @ Sanskar Saxena #8168 conding Block SS 10r: 12
+[12-05-2023 23:50] @ Sanskar Saxena #8168 conding Block SS 10r: check krta hu
+[12-05-2023 23:51] @ Sanskar Saxena #8168 conding Block SS 10r: #include<bits/stdc++.h>
+#define speed ios_base::sync_with_stdio(false)
+#define boost cin.tie(NULL)
+#define booster cout.tie(NULL)
+#define endl "\n"
+typedef long long int lld;
+
+#define F(a,n) for(int i=0;i<n;i++){cin>>a[i];}
+#define F1(a,n) for(int i=1;i<=n;i++){cin>>a[i];}
+
+using namespace std;
+
+stack<char> st;
+unordered_map<char,char> open;
+unordered_map<char,char> close;
+
+bool recurse(string s,int i){
+	if(i==s.length())
+		return st.empty();
+	
+	if(open[s[i]] > 1)
+		st.push(s[i]);
+	if(close[s[i]] > 1){
+		if( s[i] == open[st.top()] )
+			st.pop();
+		else
+			return false;
+	}
+	return recurse(s,i+1);
+}
+
+int main() {
+	
+	open['(']=')'; open['{']= '}'; open['[']=']';
+	close[')']='('; close['}']= '{'; close[']']='[';
+	
+	string s;
+	cin>>s;
+
+	if(recurse(s,0))
+		cout<<"true";
+	else
+		cout<<"false";
+
+	return 0;
+}
+[12-05-2023 23:51] @ Sanskar Saxena #8168 conding Block SS 10r: 8
+[12-05-2023 23:52] @ Sanskar Saxena #8168 conding Block SS 10r: 12 krke chrdo filhal
+[12-05-2023 23:54] SD€: Ye bhejo bass dekhte hain sayad
+[12-05-2023 23:54] SD€: Problem ayi hai
+[12-05-2023 23:55] @ Sanskar Saxena #8168 conding Block SS 10r: #include <iostream>
+using namespace std;
+
+void lexicographical(int start, int end){
+    if (start > end) {
+        return;
+    }
+    cout << start << " ";    
+    int mycallNumber = 0;
+    if (start == 0) {
+        mycallNumber = 1;
+    }
+    while (mycallNumber <= 9) {
+        lexicographical(start * 10 + mycallNumber, end);
+        mycallNumber++;
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    lexicographical(0, n);
+    return 0;
+}
+[12-05-2023 23:55] @ Sanskar Saxena #8168 conding Block SS 10r: lo
+[12-05-2023 23:57] SD€: Bhaii iska 4 aur bhejj dooo please
+[12-05-2023 23:58] @ Sanskar Saxena #8168 conding Block SS 10r: #include<bits/stdc++.h>
+#define speed ios_base::sync_with_stdio(false)
+#define boost cin.tie(NULL)
+#define booster cout.tie(NULL)
+#define endl "\n"
+typedef long long int lld;
+
+#define F(a,n) for(int i=0;i<n;i++){cin>>a[i];}
+#define F1(a,n) for(int i=1;i<=n;i++){cin>>a[i];}
+
+using namespace std;
+
+vector<string> result;
+int count=0;
+
+void recurse(string ans,string s,int i){
+
+	if(i==s.length()){
+		::count++;
+		result.push_back(ans);
+		
+		return ;
+	}
+
+	recurse(ans,s,i+1);
+	recurse(ans + s[i], s, i+1);
+	recurse(ans+ to_string((int)(s[i])), s, i+1);
+
+}
+
+int main(){
+
+	string s;
+	cin>>s;
+
+	recurse("",s,0);
+	for(int i=0;i<result.size();i++)
+		cout<<result[i]<<" ";
+	cout<<endl<<::count;
+
+	return 0;
+}
+[13-05-2023 00:00] SD€: 12 bhi
+[13-05-2023 00:00] @ Sanskar Saxena #8168 conding Block SS 10r: #include <iostream>
+using namespace std;
+
+int count;
+
+void printPath(int cr, int cc, int er, int ec, string path) {
+    if (cr > er || cc > ec) {
+        return;
+    }
+    if (cr == er && cc == ec) {
+        count++;
+        cout << path << " ";
+        return;
+    }
+    printPath(cr + 1, cc, er, ec, path + 'V');
+    printPath(cr, cc + 1, er, ec, path + 'H');
+    printPath(cr + 1, cc + 1, er, ec, path + 'D');
+}
+
+int main() {
+    int n1, n2;
+    cin >> n1 >> n2;
+    printPath(0, 0, n1 - 1, n2 - 1, "");
+    cout << endl << count << endl;
+    return 0;
+}

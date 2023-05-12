@@ -1,0 +1,266 @@
+[12-05-2023 22:33] @ Sanskar Saxena #8168 conding Block SS 10r: #include <bits/stdc++.h>
+using namespace std;
+int t;
+int h;
+int dp[20][20];
+int temp_board[20][20]={0};
+
+void makeZero(int board[20][20],int hll){
+
+    for(int i=0;i<20;i++){
+        for(int j=0;j<5;j++){
+            dp[i][j] = -1e8;
+        }
+    }
+
+      for(int i=0;i<20;i++){
+         for(int j=0;j<5;j++){
+            temp_board[i][j]=board[i][j];
+          }
+       }
+
+    for(int i=hll;i<hll+5;i++){
+        for(int j=0;j<5;j++){
+            if(temp_board[i][j]==-1)
+                temp_board[i][j]=0;
+        }
+    }
+}
+
+int makeitMax(int temp_board[][20], int i, int j){
+
+    if(i==-1)
+         return 0;
+
+    if(dp[i][j]!=-1e8)
+        return dp[i][j];
+
+    int &ans = dp[i][j];
+
+    ans = max(ans,temp_board[i][j]+makeitMax(temp_board,i-1,j));
+    if(j<4)
+      ans = max(ans,temp_board[i][j]+makeitMax(temp_board,i-1,j+1));
+    if(j>0)
+      ans = max(ans,temp_board[i][j]+makeitMax(temp_board,i-1,j-1));
+
+    return ans;
+}
+
+int main()
+{
+    cin>>t;
+    while(t--){
+        int board[20][20]={0};
+        cin>>h;
+        for(int i=0;i<h;i++){
+            for(int j=0;j<5;j++){
+                cin>>board[i][j];
+            }
+        }
+        int alltimeMax=-1e8;
+        if(h<5){
+              int max_value = makeitMax(board,h,2);
+              alltimeMax = max(max_value,alltimeMax);
+        }
+        else {
+            for(int hll= 0;hll<h-4;hll++){
+                makeZero(board,hll);
+                int je = makeitMax(temp_board,h,2);
+                alltimeMax = max(alltimeMax,je);
+            }
+      }
+       cout<<alltimeMax<<endl;
+    }
+    return 0;
+}
+[12-05-2023 22:33] @ Sanskar Saxena #8168 conding Block SS 10r: 1st
+[12-05-2023 22:34] : yes broo
+[12-05-2023 22:34] : 2nd
+[12-05-2023 22:34] @ Sanskar Saxena #8168 conding Block SS 10r: #include<bits/stdc++.h>
+#define speed ios_base::sync_with_stdio(false)
+#define boost cin.tie(NULL)
+#define booster cout.tie(NULL)
+#define endl "\n"
+typedef long long int lld;
+
+#define F(a,n) for(int i=0;i<n;i++){cin>>a[i];}
+#define F1(a,n) for(int i=1;i<=n;i++){cin>>a[i];}
+
+using namespace std;
+
+lld count;
+vector<lld> result;
+stack<vector<lld>> st;
+
+void printv(vector<lld> ar){
+	for(lld i=0;i<ar.size();i++)
+		cout<<ar[i]<<" ";
+	cout<<" ";
+	return;
+}
+
+void recurse(vector<lld> result,vector<lld> ar,lld target,lld sum,lld i){
+
+	if(i==ar.size()){
+
+		if(sum==target){
+			::count++;
+			st.push(result);
+		}
+
+		return;
+	}
+	
+	recurse(result,ar,target,sum,i+1);
+
+	result.push_back(ar[i]);
+	sum+= ar[i];
+
+	recurse(result,ar,target,sum,i+1);
+
+}
+
+int main() {
+	::count=0;
+	lld N,target;
+	cin>>N;
+	vector<lld> ar(N);
+	vector<lld> result;
+
+	for(lld i=0;i<N;i++)
+		cin>>ar[i];
+	cin>>target;
+
+	recurse(result,ar,target,0,0);
+	while(! ::st.empty()){
+		printv(st.top());
+		st.pop();
+	}
+	cout<<endl<<::count;
+
+	return 0;
+}
+[12-05-2023 22:35] : 3rd bro
+[12-05-2023 22:36] @ Sanskar Saxena #8168 conding Block SS 10r: #include<bits/stdc++.h>
+#define speed ios_base::sync_with_stdio(false)
+#define boost cin.tie(NULL)
+#define booster cout.tie(NULL)
+#define endl "\n"
+typedef long long int lld;
+
+#define F(a,n) for(int i=0;i<n;i++){cin>>a[i];}
+#define F1(a,n) for(int i=1;i<=n;i++){cin>>a[i];}
+#define P(a,n) for(int i=0;i<n;i++){cout<<a[i]<<' ';}cout<<endl;
+#define P1(a,n) for(int i=1;i<=n;i++){cout<<a[i]<<' ';}cout<<endl;
+#define NF(a,n,m) for(int i=0;i<n;i++){for(int j=0;j<m;j++){cin>>a[i][j];}}
+#define NF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cin>>a[i][j];}}
+#define PNF(a,n,m) for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
+#define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
+
+using namespace std;
+
+int cnt=0;
+
+bool check(int ar[100][100],int i,int j){
+	//cout<<"start and i "<<i<<" and j "<<j<<" ar is "<<ar[i][j]<<endl;
+	if(ar[i][j]==1)
+		return false;
+	if(ar[i+1][j+2]==1 || ar[i+1][j+1]==1)
+		return false;
+	if(j-2>=0 && ar[i+1][j-2]==1)
+		return false;
+	if(j-1>=0 && ar[i+2][j-1]==1)
+		return false;
+	if(i-1>=0 && ar[i-1][j+2]==1)
+		return false;
+	if(i-1>=0 && j-2>=0 && ar[i-1][j-2]==1)
+		return false;
+	if(i-2>=0 && ar[i-2][j+1]==1)
+		return false;
+	if(i-2>=0 && j-1>=0 && ar[i-2][j-1]==1)
+		return false;
+	return true;
+}
+
+void nknights(int ar[100][100],int n,int col,int row, int no){
+	
+	if(no==0){
+		
+		cnt++;
+
+		for(int i=0;i<n;i++){
+			for(int j=0;j<n;j++){
+				if(ar[i][j] == 1)
+					cout<<"{"<<i<<"-"<<j<<"}"<<" ";
+			}
+		}
+		cout<<" ";
+			
+		return ;
+	}
+	
+	for(int i=row;i<n;i++){
+		for(int j=col;j<n;j++){
+			if(check(ar,i,j)){
+			
+			
+				ar[i][j]= 1;
+			
+				nknights(ar,n,j,i,no-1);
+			
+				ar[i][j]=0;
+			}
+		}
+		col= 0;
+	}
+	
+	return ;
+	
+}
+
+int main(){
+	
+	int n;
+	cin>>n;
+	
+	int ar[100][100]={0};
+	
+	nknights(ar,n,0,0,n);
+	
+	cout<<endl<<cnt;
+	
+}
+[12-05-2023 22:38] : 4 bro
+[12-05-2023 22:39] @ Sanskar Saxena #8168 conding Block SS 10r: #include <bits/stdc++.h>
+
+using namespace std;
+
+void duplicate(char *s,int i){
+   if(s[i]=='\0')
+    return;
+   if(s[i]==s[i+1]){
+
+   
+    cout<<s[i]<<'*'; 
+   
+   }
+   else cout<<s[i];
+   duplicate(s,i+1);
+   return;
+
+}
+
+int main()
+{
+ char s[20005];
+ cin>>s;
+ int i=0;
+ duplicate(s,i);
+
+ return 0;
+}
+
+
+
+
+https://hack.codingblocks.com/app/contests/4215

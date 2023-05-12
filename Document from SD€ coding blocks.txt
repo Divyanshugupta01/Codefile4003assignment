@@ -1,0 +1,256 @@
+Pascal Triangle 1
+
+#include<iostream>
+using namespace std;
+int main() {
+    int n;
+	cin>>n;
+	for(int i=1;i<=n;i++){
+		int num =1;
+		for(int j=1;j<=n-i+1;j++){
+			cout<<" ";
+		}
+		for(int j=1;j<=i;j++){
+			if(j==1){
+				cout<<j<<" ";
+			}
+			else{
+				num=num*(i-j+1)/(j-1);
+				cout<<num<<" ";
+			}
+		}cout<<endl;
+	}
+}
+
+
+Pattern Magic
+
+#include<iostream>
+using namespace std;
+int main() {
+int n;
+  cin>>n;
+		for(int i=0;i<n;i++) {
+			for(int j=i;j<n;j++) {
+			cout<<"*";
+			}
+			for(int k=1;k<=(2*i)-1;k++) {
+			cout<<" ";
+			}
+			if(i==0) {
+				for(int j=i;j<n-1;j++) {
+				cout<<"*";
+				}
+				
+			}else {
+				for(int j=i;j<n;j++) {
+					cout<<"*";
+				}
+			}
+		cout<<endl;
+		}
+		
+		for(int i=n-2;i>=0;i--){
+
+		    for(int j=i;j<n;j++){
+
+		       cout<<"*";
+
+		    }
+
+		    for(int k=1;k<=(2*i)-1;k++){
+
+		       cout<<" ";
+
+		    }
+
+		    if(i==0){
+
+		        for(int j=i;j<n-1;j++){ 
+
+		      cout<<"*";
+
+		        }
+
+		    }
+
+		    else{
+
+		        for(int j=i;j<n;j++){   
+
+		       cout<<"*";
+
+		        }
+
+		    }
+
+		   cout<<endl;
+
+		}
+		return 0;
+		
+	}
+
+
+GCD
+
+#include <iostream>
+using namespace std;
+
+int gcd(int n1,int n2){
+    if(n2==0)
+    return n1;
+    return gcd(n2,n1%n2);
+}
+int main() {
+    int n1,n2,gcd_num;
+    cin>>n1;
+    cin>>n2;
+    cout<<gcd(n1,n2);
+}
+
+IS ARMSTRONG NO
+
+#include<iostream>
+using namespace std;
+
+int armstrong(int n){
+   int t=n,leng=0;
+   while(t!=0){
+	   leng=leng+1;
+	   t=t/10;
+   }
+   int t1=n;
+   int arm=0;
+   while(t1!=0){
+	   int mul=1;
+	   int rem=t1%10;
+	   for(int i=1;i<=leng;i++){
+		   mul=mul*rem;
+	   }
+	   arm=arm+mul;
+	   t1=t1/10;
+   }
+   if(arm==n){
+	   cout<<"true";
+   }
+   else{
+	   cout<<"false";
+   }
+   return arm;
+}
+int main() {
+	int n;
+	cin>>n;
+	armstrong(n);
+}
+
+
+MILLI'S GALLERY
+
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+   
+int n;
+cin>>n;
+
+vector<int>arr;
+for(int i = 0;i<n;i++){
+  int x;
+  cin>>x;
+  arr.push_back(x);
+}
+int total;
+cin>>total;
+
+for(int i = 0;i<n;i++){
+  if(i-1>=0){
+    if(arr[i-1] == 1){
+      continue;
+    }
+  }
+  if(i+1<n){
+    if(arr[i+1]==1){
+      continue;
+    }
+  }
+  
+  if(arr[i]==0){
+    arr[i] = 1;
+    total--;
+  }
+}
+
+if(total<=0)cout<<"true"<<endl;
+else cout<<"false"<<endl;
+
+return 0;
+}
+
+
+FIND PEAK ELEMENT
+
+#include<iostream>
+using namespace std;
+
+int main(){
+
+     int n;
+    cin>>n;
+    int arr[n];
+    for(int i=0;i<n;i++)
+    {
+        cin>>arr[i];
+    }
+    int ans=-1;
+    for(int i=1;i<n-1;i++)
+    {
+        if((arr[i]>arr[i-1]) && (arr[i]>arr[i+1]))
+        {
+           ans=i;
+           break;
+        }
+
+    }
+    if(ans==-1){
+        cout<<"No Peak Element";
+    }else{
+        cout<<ans;
+    }
+   
+    return 0;
+}
+
+
+THE LOST CITY OF GOLD Z
+
+
+#include <iostream>
+using namespace std;
+int main() {
+    int n,m;
+    cin>>n;
+    int arr[n];
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
+    }
+    cin>>m;
+    int sum=0;double avg,temp;
+    for(int i=0;i<m;i++){
+      sum+=arr[i];
+      temp=sum;
+    }
+
+    for(int i=m;i<n;i++){
+        sum=sum-arr[i-m];
+        sum=sum+arr[i];
+        if(sum>temp){
+            temp=sum;
+        }
+    }
+    avg=temp/m;
+    cout<<avg<<endl;
+  
+   return 0;
+}
